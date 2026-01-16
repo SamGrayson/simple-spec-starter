@@ -108,25 +108,7 @@ setup_copilot() {
     fi
     
     # Update AGENTS.md
-    AGENT_INFO="GitHub Copilot (VS Code)
-
-## Command Structure
-
-Copilot uses prompt files stored in \`.github/prompts/\` with the \`.prompt.md\` extension.
-
-## How to Use Commands
-
-To invoke a prompt file:
-1. Open the Chat view (Ctrl+Cmd+I on macOS, Ctrl+Alt+I on Windows/Linux)
-2. Type \`/\` followed by the command name
-3. Examples:
-   - \`/spec\` - Create specifications from requirements
-   - \`/implement\` - Implement features based on specifications
-
-## Command Files
-
-- \`.github/prompts/spec.prompt.md\` - Specification agent
-- \`.github/prompts/implement.prompt.md\` - Implementation agent"
+    AGENT_INFO="GitHub Copilot (VS Code)"
 
     update_agents_md "$AGENT_INFO"
 }
@@ -156,28 +138,7 @@ setup_cursor() {
     fi
     
     # Update AGENTS.md
-    AGENT_INFO="Cursor
-
-## Command Structure
-
-Cursor uses agent files stored in the \`/agents\` directory.
-
-## How to Use Commands
-
-To invoke an agent in Cursor:
-1. Open the Cursor chat (Cmd+L on macOS, Ctrl+L on Windows/Linux)
-2. Reference the agent file using @-mentions: \`@agents/spec.md\` or \`@agents/implement.md\`
-3. Or use natural language: \"Use the spec agent to create specifications\"
-4. Cursor will automatically detect and load agents from the \`/agents\` directory
-
-## Agent Files
-
-- \`/agents/spec.md\` - Specification agent
-- \`/agents/implement.md\` - Implementation agent
-
-## Additional Configuration
-
-You can also create a \`.cursorrules\` file in the project root to define project-wide rules and instructions that Cursor will automatically follow for all interactions."
+    AGENT_INFO="Cursor"
 
     update_agents_md "$AGENT_INFO"
 }
@@ -207,31 +168,7 @@ setup_claude() {
     fi
     
     # Update AGENTS.md
-    AGENT_INFO="Claude (Desktop App / API)
-
-## Command Structure
-
-Claude uses custom commands stored in \`.claude/commands/\`.
-
-## How to Use Commands
-
-To invoke a custom command with Claude:
-1. Start a conversation in Claude
-2. Type \`/\` to see available custom commands
-3. Select the command you want to use (e.g., \`/spec\` or \`/implement\`)
-4. The command will load the instructions from the corresponding file
-
-## Command Files
-
-- \`.claude/commands/spec.md\` - Specification agent
-- \`.claude/commands/implement.md\` - Implementation agent
-
-## Project Instructions
-
-In Claude Projects (web/desktop), these commands are automatically detected:
-1. Create or open a Claude Project
-2. The commands in \`.claude/commands/\` will be available via \`/\` menu
-3. You can also reference them directly in conversations"
+    AGENT_INFO="Claude (Desktop App / API)"
 
     update_agents_md "$AGENT_INFO"
 }
@@ -246,11 +183,22 @@ update_agents_md() {
         exit 1
     fi
     
-    # Create a temporary file
+    # Read the file line by line and replace the placeholder
     local temp_file=$(mktemp)
+    local found=false
     
-    # Replace the placeholder with the agent info
-    sed "s|\[INSERT AI ASSISTANT CHOICE HERE: e.g. Claude, Co-pilot, Cursor, etc.\]|$agent_info|" "$agents_md" > "$temp_file"
+    while IFS= read -r line; do
+        if [[ "$line" == *"[INSERT AI ASSISTANT CHOICE HERE:"* ]]; then
+            echo "$agent_info" >> "$temp_file"
+            found=true
+        else
+            echo "$line" >> "$temp_file"
+        fi
+    done < "$agents_md"
+    
+    if [[ "$found" == false ]]; then
+        print_warning "Placeholder not found in AGENTS.md, but continuing..."
+    fi
     
     # Move temp file back to original
     mv "$temp_file" "$agents_md"
