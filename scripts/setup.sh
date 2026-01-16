@@ -263,6 +263,12 @@ case "$AI_ASSISTANT" in
         ;;
 esac
 
+# Remove the prompts directory after setup
+if [[ -d "$PROJECT_ROOT/prompts" ]]; then
+    rm -rf "$PROJECT_ROOT/prompts"
+    print_info "Removed prompts/ directory"
+fi
+
 print_info "${GREEN}✓${NC} Setup complete for $AI_ASSISTANT!"
 print_info ""
 print_info "Next steps:"
