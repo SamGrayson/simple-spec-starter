@@ -58,4 +58,3 @@ Think through edgecases you may encounter with these requirements. This may incl
 ## Usage
 
 Invoke this agent by referencing the requirements or feature request, and I will produce a complete specification document.
-
