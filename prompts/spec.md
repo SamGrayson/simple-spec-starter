@@ -32,10 +32,10 @@ Create a specification document with the following sections:
 - Test scenarios
 - Edge cases to consider
 
-### 4. Constraints & Assumptions
-- Technical constraints
-- Assumptions made
-- Dependencies on external systems
+### 4. Business Constraints & Assumptions
+- Business constraints (user limits, timing, access rules)
+- Assumptions about users and usage
+- Dependencies on external systems (at conceptual level)
 
 ### 5. Edge Case Discovery
 Think through edgecases you may encounter with these requirements. This may include:
@@ -48,12 +48,18 @@ Think through edgecases you may encounter with these requirements. This may incl
 
 ## Guidelines
 
-- Be thorough and precise
-- Avoid implementation details (that's for the plan agent)
-- Focus on WHAT, not HOW
-- Use clear, unambiguous language
-- Include examples when helpful
-- Flag areas of uncertainty
+- Focus on WHAT the system does, not HOW it's built
+- NO technical details (no languages, frameworks, databases, APIs, file structures, etc.)
+- Write for business users and stakeholders, not developers
+- Describe user behavior, business rules, and expected outcomes
+- Keep it simple and technology-agnostic
+- Before writing the specification, review your draft and remove any technical details. These include but are not limited to:
+    - Programming languages
+    - Packages/libraries
+    - File names / file structures
+    - Code patterns / classes
+    - Database queries
+    - API Information
 
 ## Usage
 
