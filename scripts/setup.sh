@@ -135,22 +135,22 @@ To invoke a prompt file:
 setup_cursor() {
     print_info "Configuring for Cursor..."
     
-    # Create .cursorrules or .cursor/prompts directory
-    PROMPTS_DIR="$PROJECT_ROOT/.cursor/prompts"
-    mkdir -p "$PROMPTS_DIR"
-    print_info "Created directory: $PROMPTS_DIR"
+    # Create /agents directory for agent definitions
+    AGENTS_DIR="$PROJECT_ROOT/agents"
+    mkdir -p "$AGENTS_DIR"
+    print_info "Created directory: $AGENTS_DIR"
     
-    # Copy prompt files
+    # Copy prompt files to /agents directory
     if [[ -f "$PROJECT_ROOT/prompts/spec.md" ]]; then
-        cp "$PROJECT_ROOT/prompts/spec.md" "$PROMPTS_DIR/spec.md"
-        print_info "Copied spec.md to $PROMPTS_DIR/spec.md"
+        cp "$PROJECT_ROOT/prompts/spec.md" "$AGENTS_DIR/spec.md"
+        print_info "Copied spec.md to $AGENTS_DIR/spec.md"
     else
         print_warning "spec.md not found in prompts directory"
     fi
     
     if [[ -f "$PROJECT_ROOT/prompts/implement.md" ]]; then
-        cp "$PROJECT_ROOT/prompts/implement.md" "$PROMPTS_DIR/implement.md"
-        print_info "Copied implement.md to $PROMPTS_DIR/implement.md"
+        cp "$PROJECT_ROOT/prompts/implement.md" "$AGENTS_DIR/implement.md"
+        print_info "Copied implement.md to $AGENTS_DIR/implement.md"
     else
         print_warning "implement.md not found in prompts directory"
     fi
@@ -160,23 +160,24 @@ setup_cursor() {
 
 ## Command Structure
 
-Cursor uses custom rules and prompts stored in \`.cursor/prompts/\` or via \`.cursorrules\`.
+Cursor uses agent files stored in the \`/agents\` directory.
 
 ## How to Use Commands
 
-To invoke a custom prompt in Cursor:
+To invoke an agent in Cursor:
 1. Open the Cursor chat (Cmd+L on macOS, Ctrl+L on Windows/Linux)
-2. Reference the prompt file using @-mentions: \`@.cursor/prompts/spec.md\`
+2. Reference the agent file using @-mentions: \`@agents/spec.md\` or \`@agents/implement.md\`
 3. Or use natural language: \"Use the spec agent to create specifications\"
+4. Cursor will automatically detect and load agents from the \`/agents\` directory
 
-## Command Files
+## Agent Files
 
-- \`.cursor/prompts/spec.md\` - Specification agent
-- \`.cursor/prompts/implement.md\` - Implementation agent
+- \`/agents/spec.md\` - Specification agent
+- \`/agents/implement.md\` - Implementation agent
 
 ## Additional Configuration
 
-You can also create a \`.cursorrules\` file in the project root to define project-wide rules and instructions that Cursor will automatically follow."
+You can also create a \`.cursorrules\` file in the project root to define project-wide rules and instructions that Cursor will automatically follow for all interactions."
 
     update_agents_md "$AGENT_INFO"
 }
@@ -185,8 +186,8 @@ You can also create a \`.cursorrules\` file in the project root to define projec
 setup_claude() {
     print_info "Configuring for Claude..."
     
-    # Create .claude directory for custom instructions
-    CLAUDE_DIR="$PROJECT_ROOT/.claude"
+    # Create .claude/commands directory for custom commands
+    CLAUDE_DIR="$PROJECT_ROOT/.claude/commands"
     mkdir -p "$CLAUDE_DIR"
     print_info "Created directory: $CLAUDE_DIR"
     
@@ -210,27 +211,27 @@ setup_claude() {
 
 ## Command Structure
 
-Claude uses custom project instructions and referenced files stored in \`.claude/\`.
+Claude uses custom commands stored in \`.claude/commands/\`.
 
 ## How to Use Commands
 
-To invoke a custom prompt with Claude:
+To invoke a custom command with Claude:
 1. Start a conversation in Claude
-2. Reference the prompt file explicitly: \"Use the instructions in .claude/spec.md to create specifications\"
-3. Or attach the file to your conversation using the attachment feature
-4. For the web/desktop app, you can set project instructions that reference these files
+2. Type \`/\` to see available custom commands
+3. Select the command you want to use (e.g., \`/spec\` or \`/implement\`)
+4. The command will load the instructions from the corresponding file
 
 ## Command Files
 
-- \`.claude/spec.md\` - Specification agent
-- \`.claude/implement.md\` - Implementation agent
+- \`.claude/commands/spec.md\` - Specification agent
+- \`.claude/commands/implement.md\` - Implementation agent
 
 ## Project Instructions
 
-In Claude Projects (web/desktop), you can add these files as project knowledge:
+In Claude Projects (web/desktop), these commands are automatically detected:
 1. Create or open a Claude Project
-2. Add the \`.claude/spec.md\` and \`.claude/implement.md\` files to Project Knowledge
-3. Reference them in conversations: \"Following the spec agent instructions, create specifications for...\""
+2. The commands in \`.claude/commands/\` will be available via \`/\` menu
+3. You can also reference them directly in conversations"
 
     update_agents_md "$AGENT_INFO"
 }
