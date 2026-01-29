@@ -60,6 +60,7 @@ As you implement each phase, provide:
 1. **Review Phase**: Understand what the current phase needs to accomplish
 2. **Implement**: Write the code following KISS and DRY principles
 3. **Report**: Update progress and move to next phase
+4. **When finished**: Write a short summary of session to /scratch folder
 
 ## When Things Go Wrong
 

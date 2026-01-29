@@ -86,12 +86,17 @@ print_info "Project root: $PROJECT_ROOT"
 # Function to setup for GitHub Copilot
 setup_copilot() {
     print_info "Configuring for GitHub Copilot..."
-    
+
+    # Create .github directory
+    GITHUB_DIR="$PROJECT_ROOT/.github"
+    mkdir -p "$GITHUB_DIR"
+    print_info "Created directory: $GITHUB_DIR"
+
     # Create .github/prompts directory
-    PROMPTS_DIR="$PROJECT_ROOT/.github/prompts"
+    PROMPTS_DIR="$GITHUB_DIR/prompts"
     mkdir -p "$PROMPTS_DIR"
     print_info "Created directory: $PROMPTS_DIR"
-    
+
     # Copy and rename prompt files with .prompt.md extension
     if [[ -f "$PROJECT_ROOT/prompts/spec.md" ]]; then
         cp "$PROJECT_ROOT/prompts/spec.md" "$PROMPTS_DIR/spec.prompt.md"
@@ -99,14 +104,24 @@ setup_copilot() {
     else
         print_warning "spec.md not found in prompts directory"
     fi
-    
+
     if [[ -f "$PROJECT_ROOT/prompts/implement.md" ]]; then
         cp "$PROJECT_ROOT/prompts/implement.md" "$PROMPTS_DIR/implement.prompt.md"
         print_info "Copied implement.md to $PROMPTS_DIR/implement.prompt.md"
     else
         print_warning "implement.md not found in prompts directory"
     fi
-    
+
+    # Create copilot-instructions.md file
+    cat > "$GITHUB_DIR/copilot-instructions.md" << 'EOF'
+# GitHub Copilot Instructions
+
+This project follows an agent-based development workflow. Please reference the AGENTS.md file for detailed guidelines and workflow instructions.
+
+@AGENTS.md
+EOF
+    print_info "Created copilot-instructions.md at $GITHUB_DIR/copilot-instructions.md"
+
     # Update AGENTS.md
     AGENT_INFO="GitHub Copilot (VS Code)"
 
@@ -116,12 +131,12 @@ setup_copilot() {
 # Function to setup for Cursor
 setup_cursor() {
     print_info "Configuring for Cursor..."
-    
+
     # Create /agents directory for agent definitions
     AGENTS_DIR="$PROJECT_ROOT/agents"
     mkdir -p "$AGENTS_DIR"
     print_info "Created directory: $AGENTS_DIR"
-    
+
     # Copy prompt files to /agents directory
     if [[ -f "$PROJECT_ROOT/prompts/spec.md" ]]; then
         cp "$PROJECT_ROOT/prompts/spec.md" "$AGENTS_DIR/spec.md"
@@ -129,14 +144,24 @@ setup_cursor() {
     else
         print_warning "spec.md not found in prompts directory"
     fi
-    
+
     if [[ -f "$PROJECT_ROOT/prompts/implement.md" ]]; then
         cp "$PROJECT_ROOT/prompts/implement.md" "$AGENTS_DIR/implement.md"
         print_info "Copied implement.md to $AGENTS_DIR/implement.md"
     else
         print_warning "implement.md not found in prompts directory"
     fi
-    
+
+    # Create .cursorrules file
+    cat > "$PROJECT_ROOT/.cursorrules" << 'EOF'
+# Cursor AI Rules
+
+This project follows an agent-based development workflow. Please reference the AGENTS.md file for detailed guidelines and workflow instructions.
+
+@AGENTS.md
+EOF
+    print_info "Created .cursorrules at project root"
+
     # Update AGENTS.md
     AGENT_INFO="Cursor"
 
@@ -146,12 +171,12 @@ setup_cursor() {
 # Function to setup for Claude
 setup_claude() {
     print_info "Configuring for Claude..."
-    
+
     # Create .claude/commands directory for custom commands
     CLAUDE_DIR="$PROJECT_ROOT/.claude/commands"
     mkdir -p "$CLAUDE_DIR"
     print_info "Created directory: $CLAUDE_DIR"
-    
+
     # Copy prompt files
     if [[ -f "$PROJECT_ROOT/prompts/spec.md" ]]; then
         cp "$PROJECT_ROOT/prompts/spec.md" "$CLAUDE_DIR/spec.md"
@@ -159,14 +184,24 @@ setup_claude() {
     else
         print_warning "spec.md not found in prompts directory"
     fi
-    
+
     if [[ -f "$PROJECT_ROOT/prompts/implement.md" ]]; then
         cp "$PROJECT_ROOT/prompts/implement.md" "$CLAUDE_DIR/implement.md"
         print_info "Copied implement.md to $CLAUDE_DIR/implement.md"
     else
         print_warning "implement.md not found in prompts directory"
     fi
-    
+
+    # Create CLAUDE.md file at project root
+    cat > "$PROJECT_ROOT/CLAUDE.md" << 'EOF'
+# Claude Code Instructions
+
+This project follows an agent-based development workflow. Please reference the AGENTS.md file for detailed guidelines and workflow instructions.
+
+@AGENTS.md
+EOF
+    print_info "Created CLAUDE.md at project root"
+
     # Update AGENTS.md
     AGENT_INFO="Claude (Desktop App / API)"
 
