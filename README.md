@@ -17,7 +17,7 @@ The workflow encourages clear thinking about requirements before writing code, r
 
 1. Run the setup script to configure for your AI assistant:
    ```bash
-   bash scripts/setup.sh
+   bash scripts/setup.sh --ai <claude, copilot, cursor>
    ```
 
 2. Follow the prompts to select your AI assistant (Claude, Copilot, or Cursor)
