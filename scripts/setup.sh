@@ -172,22 +172,29 @@ EOF
 setup_claude() {
     print_info "Configuring for Claude..."
 
-    # Create .claude/commands directory for custom commands
-    CLAUDE_DIR="$PROJECT_ROOT/.claude/commands"
+    # Create .claude/skills directory for skills
+    CLAUDE_DIR="$PROJECT_ROOT/.claude/skills"
     mkdir -p "$CLAUDE_DIR"
     print_info "Created directory: $CLAUDE_DIR"
 
-    # Copy prompt files
+    # Create spec skill directory and file
+    SPEC_SKILL_DIR="$CLAUDE_DIR/spec"
+    mkdir -p "$SPEC_SKILL_DIR"
     if [[ -f "$PROJECT_ROOT/prompts/spec.md" ]]; then
-        cp "$PROJECT_ROOT/prompts/spec.md" "$CLAUDE_DIR/spec.md"
-        print_info "Copied spec.md to $CLAUDE_DIR/spec.md"
+        # Copy the spec.md file as SKILL.md (already has YAML frontmatter)
+        cp "$PROJECT_ROOT/prompts/spec.md" "$SPEC_SKILL_DIR/SKILL.md"
+        print_info "Created spec skill at $SPEC_SKILL_DIR/SKILL.md"
     else
         print_warning "spec.md not found in prompts directory"
     fi
 
+    # Create implement skill directory and file
+    IMPLEMENT_SKILL_DIR="$CLAUDE_DIR/implement"
+    mkdir -p "$IMPLEMENT_SKILL_DIR"
     if [[ -f "$PROJECT_ROOT/prompts/implement.md" ]]; then
-        cp "$PROJECT_ROOT/prompts/implement.md" "$CLAUDE_DIR/implement.md"
-        print_info "Copied implement.md to $CLAUDE_DIR/implement.md"
+        # Copy the implement.md file as SKILL.md (already has YAML frontmatter)
+        cp "$PROJECT_ROOT/prompts/implement.md" "$IMPLEMENT_SKILL_DIR/SKILL.md"
+        print_info "Created implement skill at $IMPLEMENT_SKILL_DIR/SKILL.md"
     else
         print_warning "implement.md not found in prompts directory"
     fi
@@ -196,7 +203,7 @@ setup_claude() {
     cat > "$PROJECT_ROOT/CLAUDE.md" << 'EOF'
 # Claude Code Instructions
 
-This project follows an agent-based development workflow. Please reference the AGENTS.md file for detailed guidelines and workflow instructions.
+This project follows an agent-based development workflow using Claude Code skills.
 
 @AGENTS.md
 EOF

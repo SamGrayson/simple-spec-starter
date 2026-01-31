@@ -10,7 +10,7 @@ This project uses a simplified specification and implementation agent-based work
 
 ## AI Assistant
 
-[INSERT AI ASSISTANT CHOICE HERE: e.g. Claude, Co-pilot, Cursor, etc.]
+Claude (Desktop App / API)
 
 ## Available Agent Commands
 
@@ -59,3 +59,28 @@ Each agent has specific responsibilities and outputs defined in the prompts.
   - All implementation summary files should be written to a `scratch/` directory. These files will not be stored in version control, but are a reference to help you keep track of what has been done.
 - After implementation, update the relevant specification file to reflect any changes made during development.
   - Prompt the user to confirm what updates should be made to the specification file.
+
+## Code Quality Standards
+
+**These principles MUST be followed whenever writing or generating code in this project.**
+
+### KISS (Keep It Simple, Stupid)
+- Write the simplest code that solves the problem
+- Avoid over-engineering and unnecessary abstractions
+- Use built-in functions and standard library when possible
+- Don't optimize prematurely
+- Choose clarity over cleverness
+
+### DRY (Don't Repeat Yourself)
+- Extract repeated logic into helper functions
+- Reuse utilities across the solution
+- Avoid copy-pasting code
+- Create reusable components
+
+### Code Quality
+- Use meaningful, descriptive variable and function names
+- Keep functions focused and single-purpose
+- Handle errors and edge cases appropriately
+- Write self-documenting code that is readable through appropriate naming
+- Avoid overly verbose comments - code should be understandable without them
+- Only add comments for non-obvious algorithmic choices or complex logic that cannot be clarified through naming
